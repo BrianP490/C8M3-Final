@@ -1,4 +1,10 @@
-"""Server module to run the emotion detection flask application"""
+"""
+This Server module to run the emotion detection flask application\
+
+Defines 2 routes:
+1. '/' - Renders the index.html page
+2. '/emotionDetector' - Receives text input from the user and returns the emotion analysis
+"""
 from flask import Flask, render_template, request
 from EmotionDetection import emotion_detector
 
@@ -7,8 +13,11 @@ app = Flask("Final_Project")
 
 @app.route('/emotionDetector')
 def process_emotion():
-    """This code receives the text from the HTML interface and runs sentiment analysis over it
+    """
+    This code receives the text from the HTML interface and runs sentiment analysis over it
     using the 'emotion_detector' function. The output is returned in a formatted style.
+    Returns:
+        response_skeleton (str): Formatted string containing the emotion analysis results.
     """
     # Extract the text from the request object
     text_to_analyze = request.args.get('textToAnalyze')
@@ -30,17 +39,21 @@ def process_emotion():
     else:
         response_skeleton = f"""For the given statement, the system response is 'anger':
         {anger_score},
-        'disgust': {disgust_score}, 'fear': {fear_score}, 'joy': 
-        {joy_score} and 'sadness': 
+        'disgust': {disgust_score}, 'fear': {fear_score}, 'joy':
+        {joy_score} and 'sadness':
         {sadness_score}. The dominant emotion is {dominant_emotion}."""
 
     return response_skeleton
 
 @app.route("/")
 def render_index_page():
-    """Initial rendering of the main application using flask."""
+    """
+    Initial rendering of the main application using flask.
+    Returns:
+        Rendered HTML template for the index page.
+    """
     return render_template('index.html')
 
+# Run the flask app
 if __name__ == '__main__':
-    """Main script entry point that runs the flask app, specifying the host and port."""
     app.run(host='localhost', port=5000, debug=True)
